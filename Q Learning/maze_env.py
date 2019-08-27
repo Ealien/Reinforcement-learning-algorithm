@@ -15,7 +15,10 @@ View more on my tutorial page: https://morvanzhou.github.io/tutorials/
 import numpy as np
 import time
 import sys
-import tkinter as tk
+if sys.version_info.major == 2:
+    import Tkinter as tk
+else:
+    import tkinter as tk
 
 
 UNIT = 40   # pixels

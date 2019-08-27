@@ -23,8 +23,8 @@ def update():
             if done:
                 break
 
-        print('game over')
-        env.destroy()
+    print('game over')
+    env.destroy()
 
 
 if __name__ == "__main__":
