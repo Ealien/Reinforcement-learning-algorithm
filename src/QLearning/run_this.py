@@ -1,5 +1,5 @@
-from maze_env import Maze
-from RL_brain import QLearningTable
+from QLearning.RL_brain import QLearningTable
+from QLearning.maze_env import Maze
 
 
 def update():

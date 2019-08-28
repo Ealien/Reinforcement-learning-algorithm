@@ -44,7 +44,7 @@ class QLearningTable:
             # 加入新状态到Q表
             self.q_table = self.q_table.append(
                 pd.Series(
-                    [0]*len(self.actions),
+                    [0] * len(self.actions),
                     index=self.q_table.columns,
                     name=state,
                 )

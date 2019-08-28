@@ -1,16 +1,17 @@
+import time
+
 import numpy as np
 import pandas as pd
-import time
 
 np.random.seed(2)
 
-N_STATES = 6                 # the length of one dimensional world
+N_STATES = 6  # the length of one dimensional world
 ACTIONS = ['left', 'right']  # available actions
-EPSION = 0.9                # greedy polic
-ALPHA = 0.1                 # learning rate
-GAMMA = 0.9                 # discount factor
-MAX_EPISODES = 13           # max episodes
-FRESH_TIME = 0.01           # fresh time for one move
+EPSION = 0.9  # greedy polic
+ALPHA = 0.1  # learning rate
+GAMMA = 0.9  # discount factor
+MAX_EPISODES = 13  # max episodes
+FRESH_TIME = 0.01  # fresh time for one move
 
 
 def build_q_table(n_states, actions):
@@ -50,10 +51,10 @@ def get_env_feedback(S, A):
 
 def update_env(S, episode, step_counter):
     # This is how environment be updated
-    env_list = ['-']*(N_STATES-1) + ['T']   # '---------T' our environment
+    env_list = ['-'] * (N_STATES - 1) + ['T']  # '---------T' our environment
     if S == 'terminal':
         interaction = 'Episode %s: total_steps = %s' % (
-            episode+1, step_counter)
+            episode + 1, step_counter)
         print('\r{}'.format(interaction), end='')
         time.sleep(2)
         print('\r                                ', end='')
@@ -83,7 +84,7 @@ def rl():
             q_table.loc[S, A] += ALPHA * (q_target - q_predict)
             S = S_
 
-            update_env(S, episode, step_counter+1)
+            update_env(S, episode, step_counter + 1)
             step_counter += 1
     return q_table
 
