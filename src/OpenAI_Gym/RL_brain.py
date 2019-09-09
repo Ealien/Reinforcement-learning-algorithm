@@ -18,6 +18,7 @@ class DeepQNetwork:
                  batch_size=32,
                  e_greedy_increment=None,
                  output_graph=False):
+        self.memory_counter = 0
         self.n_actions = n_actions
         self.n_features = n_features
         self.lr = learning_rate
@@ -100,8 +101,6 @@ class DeepQNetwork:
             self._train_op = tf.train.RMSPropOptimizer(learning_rate=self.lr).minimize(self.loss)
 
     def store_transition(self, s, a, r, s_):
-        if not hasattr(self, 'memory_counter'):
-            self.memory_counter = 0
         transition = np.hstack((s, [a, r], s_))
         # replace old memory with new memory
         index = self.memory_counter % self.memory_size
