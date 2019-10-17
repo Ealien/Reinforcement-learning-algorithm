@@ -81,14 +81,20 @@ class DoubleDQNAgent:
         # loss function
         self.loss_fn = nn.MSELoss()
 
+        self.q = []
+        self.running_q = 0
+
         self.cost_his = []
 
     def choose_action(self, observation):
         observation = torch.unsqueeze(torch.FloatTensor(observation), 0)
-        if np.random.uniform() < self.epsilon:
-            action_value = self.eval_dqn(observation)
-            action = torch.max(action_value, 1)[1].data.numpy()[0]
-        else:
+        action_value = self.eval_dqn(observation)
+        action = torch.max(action_value, 1)[1].data.numpy()[0]
+
+        self.running_q = self.running_q * 0.99 + 0.01 * torch.max(action_value).item()
+        self.q.append(self.running_q)
+
+        if np.random.uniform() > self.epsilon:
             action = np.random.randint(0, self.n_actions)
         return action
 
@@ -114,7 +120,6 @@ class DoubleDQNAgent:
         reward = torch.FloatTensor(samples[:, self.n_features + 1:self.n_features + 2])
         state_ = torch.FloatTensor(samples[:, -self.n_features:])
 
-        ##### Double DQN #####
         q_eval4next = self.eval_dqn(state_).detach()
         q_next = self.target_dqn(state_).detach()
 
